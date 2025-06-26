@@ -45,12 +45,12 @@ export function Navigation() {
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-purple-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">PoH</span>
+            <Link href="/" className="flex items-center space-x-1">
+              <div className=" bg-white rounded-lg flex items-center justify-center text-2xl">
+                🔥
               </div>
               <span className="font-bold text-xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Proof of Habit
+                Starkit
               </span>
             </Link>
 

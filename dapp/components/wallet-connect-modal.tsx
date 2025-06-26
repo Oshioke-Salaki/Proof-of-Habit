@@ -56,8 +56,8 @@ export function WalletConnectModal({
         </DialogHeader>
         <div className="space-y-4">
           <p className="text-sm text-gray-600">
-            Choose a wallet to connect to Proof of Habit and start tracking your
-            habits onchain.
+            Choose a wallet to connect to starkIt and start tracking your habits
+            onchain.
           </p>
           <div className="space-y-3">
             {connectors.map((connector) => {

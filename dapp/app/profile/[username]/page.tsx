@@ -13,6 +13,7 @@ import { useAccount } from "@starknet-react/core";
 import { shortenAddress } from "@/lib/utils";
 import { useUserHabits } from "@/hooks/useUserHabits";
 import { useUserStats } from "@/hooks/useUserStats";
+import Image from "next/image";
 
 interface UserHabit {
   id: number;
@@ -60,7 +61,12 @@ export default function ProfilePage() {
           <CardHeader>
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                O
+                <Image
+                  alt="avatar"
+                  src="/user_avatar.svg"
+                  width={60}
+                  height={60}
+                />
               </div>
               <div className="flex-1">
                 <h1 className="text-2xl font-bold text-gray-800 mb-1">
@@ -71,9 +77,7 @@ export default function ProfilePage() {
                 </p>
                 <div className="flex items-center space-x-1 text-sm text-gray-500">
                   <Calendar className="w-4 h-4" />
-                  <span>
-                    Joined {new Date("26/06/25").toLocaleDateString()}
-                  </span>
+                  <span>Joined {new Date().toLocaleDateString()}</span>
                 </div>
               </div>
             </div>

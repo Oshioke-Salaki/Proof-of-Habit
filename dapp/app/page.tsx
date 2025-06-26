@@ -2,15 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Flame, Trophy, Clock, ArrowRight, Loader2 } from "lucide-react";
+import { Flame, Trophy, ArrowRight, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { WalletConnectModal } from "@/components/wallet-connect-modal";
 import { useAccount } from "@starknet-react/core";
-import { mockHabits, mockLogs } from "@/lib/types";
+import { mockLogs } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useContractFetch } from "@/hooks/useBlockchain";
 import { PROOFOFHABIT_ABI } from "./abis/proof_of_habit_abi";
-import { da } from "date-fns/locale";
 import { shortString } from "starknet";
 import { useUserHabits } from "@/hooks/useUserHabits";
 import { RefreshButton } from "@/components/refresh-button";
@@ -59,6 +58,7 @@ export default function HomePage() {
   const longestStreaks = habits
     .sort((a, b) => b.streak - a.streak)
     .slice(0, 4)
+    .filter((habit) => Number(habit.streak_count) !== 0)
     .map((habit) => ({
       habit: habit.title,
       streak: Number(habit.streak_count),
@@ -147,8 +147,9 @@ export default function HomePage() {
                     <CardHeader>
                       <div className="flex items-center justify-between">
                         <CardTitle className="flex items-center space-x-2">
-                          <Trophy className="w-5 h-5 text-yellow-600" />
-                          <span>Your Best Streaks</span>
+                          {/* <Trophy className="w-5 h-5 text-yellow-600" />
+                           */}
+                          <span>🔥 Your Best Streaks</span>
                         </CardTitle>
                         <RefreshButton onRefresh={refetchContractHabits} />
                       </div>
@@ -158,9 +159,9 @@ export default function HomePage() {
                         <div className="flex justify-center h-full items-center">
                           <Loader2 className="w-10 h-10 animate-spin text-purple-600" />
                         </div>
-                      ) : habits.length === 0 ? (
+                      ) : habits.length === 0 || !longestStreaks.length ? (
                         <div className="text-center py-8">
-                          <div className="text-4xl mb-4">🏆</div>
+                          <div className="text-4xl mb-4">🔥</div>
                           <p className="text-gray-600 mb-4">
                             Start building streaks!
                           </p>
@@ -203,7 +204,7 @@ export default function HomePage() {
               <>
                 <div className="text-center mb-8">
                   <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                    Why Proof of Habit? 🤔
+                    Why StarkIt? 🤔
                   </h2>
                   <p className="text-gray-600">
                     Build lasting habits with blockchain accountability
