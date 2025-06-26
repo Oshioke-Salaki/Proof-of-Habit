@@ -8,7 +8,7 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Abi, Contract, RpcProvider } from "starknet";
 export const STARKIT_CONTRACT_ADDRESS =
-  "0x022c1d88f8a59cdc9125198ab2314c8fc761383b61ece3905849f21b6dcdf6b9";
+  "0x0353bbcf8d11dad6fd7fd2eec371142ae6a38bc3c2fab5a35a91a1796f11c56d";
 
 // Utility function to perform contract read operations
 export function useContractFetch(

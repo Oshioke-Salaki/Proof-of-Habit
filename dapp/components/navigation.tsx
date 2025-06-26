@@ -17,12 +17,13 @@ import { useAccount, useDisconnect } from "@starknet-react/core";
 import { useContractFetch } from "@/hooks/useBlockchain";
 import { shortString } from "starknet";
 import { STARKIT_ABI } from "@/app/abis/starkit_abi";
+import Image from "next/image";
 
 export function Navigation() {
   const pathname = usePathname();
   const { isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
-  const { readData: usernameData } = useContractFetch(
+  const { readData: usernameData, dataRefetch } = useContractFetch(
     STARKIT_ABI,
     "get_user_name",
     [address]
@@ -94,8 +95,15 @@ export function Navigation() {
                     <Button
                       variant="outline"
                       className="bg-white text-purple-600 border-purple-200 hover:bg-purple-50"
+                      onClick={() => dataRefetch()}
                     >
-                      <User className="w-4 h-4 mr-2" />
+                      <Image
+                        alt="avatar"
+                        src="/user_avatar.svg"
+                        width={24}
+                        height={24}
+                        className="mr-1"
+                      />
                       {(usernameData &&
                         shortString.decodeShortString(usernameData)) ||
                         `${address?.slice(0, 6)}...${address?.slice(-4)}`}
