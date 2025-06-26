@@ -101,10 +101,9 @@ export default function ProfilePage() {
           </Card>
           <Card className="bg-white/80 backdrop-blur-sm border-purple-100 text-center">
             <CardContent className="pt-6">
-              <div className="flex items-center justify-center space-x-1 mb-2">
-                <Flame className="w-6 h-6 text-orange-500" />
+              <div className="mb-2">
                 <span className="text-3xl font-bold text-orange-600">
-                  {Number(userLongestStreak)}
+                  🔥 {Number(userLongestStreak)}
                 </span>
               </div>
               <p className="text-gray-600">Longest Streak</p>
@@ -140,7 +139,7 @@ export default function ProfilePage() {
                         {habit.title}
                       </h3>
                       <Badge variant="secondary">
-                        <Flame className="w-3 h-3 mr-1" />
+                        🔥
                         {Number(habit.streak_count)}
                       </Badge>
                     </div>

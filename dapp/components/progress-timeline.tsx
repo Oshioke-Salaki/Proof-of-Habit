@@ -74,9 +74,7 @@ function ProgressTimeline({
                 <div className="flex-1 pb-8">
                   <div className="flex items-center space-x-2 mb-2">
                     <span className="text-sm font-medium text-gray-800">
-                      {new Date(
-                        Number(habit.last_log_at) * 1000
-                      ).toLocaleDateString("en-US", {
+                      {new Date(log.created_at).toLocaleDateString("en-US", {
                         weekday: "long",
                         year: "numeric",
                         month: "long",

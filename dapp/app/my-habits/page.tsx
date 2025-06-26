@@ -95,7 +95,7 @@ export default function MyHabitsPage() {
                         </p>
                       </div>
                       <Badge variant="secondary" className="ml-2">
-                        <Flame className="w-3 h-3 mr-1" />
+                        🔥
                         {Number(habit.streak_count)}
                       </Badge>
                     </div>

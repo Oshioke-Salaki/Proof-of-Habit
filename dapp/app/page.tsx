@@ -12,6 +12,8 @@ import { STARKIT_ABI } from "./abis/starkit_abi";
 import { shortString } from "starknet";
 import { useUserHabits } from "@/hooks/useUserHabits";
 import { RefreshButton } from "@/components/refresh-button";
+import LongestStreaks from "@/components/longest-streaks";
+import LatestLogs from "@/components/latest-logs";
 
 export default function HomePage() {
   const { address } = useAccount();
@@ -34,17 +36,6 @@ export default function HomePage() {
     console.log(readIsLoading, "loading read data");
     dataRefetch();
   }, [readData, readIsLoading]);
-
-  // Get user's longest streaks from their habits
-  const longestStreaks = habits
-    .sort((a, b) => b.streak - a.streak)
-    .slice(0, 4)
-    .filter((habit) => Number(habit.streak_count) !== 0)
-    .map((habit) => ({
-      habit: habit.title,
-      streak: Number(habit.streak_count),
-      avatar: "🎯",
-    }));
 
   const handleStartHabit = () => {
     if (address) {
@@ -115,70 +106,17 @@ export default function HomePage() {
               <>
                 <div className="text-center mb-8">
                   <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                    Your Habit Journey 🌟
+                    See How Others Are Crushing It 🚀
                   </h2>
                   <p className="text-gray-600">
-                    Keep building those amazing habits!
+                    Get inspired by streaks, wins, and real progress from the
+                    StarkIt community.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-8">
-                  {/* Your Best Streaks */}
-                  <Card className="bg-white/80 backdrop-blur-sm border-purple-100 w-full lg:w-[60%] mx-auto">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="flex items-center space-x-2">
-                          {/* <Trophy className="w-5 h-5 text-yellow-600" />
-                           */}
-                          <span>🔥 Your Best Streaks</span>
-                        </CardTitle>
-                        <RefreshButton onRefresh={refetchContractHabits} />
-                      </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {isLoadingHabits ? (
-                        <div className="flex justify-center h-full items-center">
-                          <Loader2 className="w-10 h-10 animate-spin text-purple-600" />
-                        </div>
-                      ) : habits.length === 0 || !longestStreaks.length ? (
-                        <div className="text-center py-8">
-                          <div className="text-4xl mb-4">🔥</div>
-                          <p className="text-gray-600 mb-4">
-                            Start building streaks!
-                          </p>
-                          <Button onClick={handleStartHabit} variant="outline">
-                            Create Your First Habit
-                          </Button>
-                        </div>
-                      ) : (
-                        longestStreaks.map((streak, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center space-x-3 p-3 rounded-lg bg-yellow-50/50"
-                          >
-                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold text-sm">
-                              {index + 1}
-                            </div>
-                            <div className="text-2xl">{streak.avatar}</div>
-                            <div className="flex-1 min-w-0">
-                              <p className="font-medium text-sm">
-                                {streak.habit}
-                              </p>
-                            </div>
-                            <div className="text-right">
-                              <div className="flex items-center space-x-1">
-                                <Flame className="w-4 h-4 text-orange-500" />
-                                <span className="font-bold text-lg">
-                                  {streak.streak}
-                                </span>
-                              </div>
-                              <p className="text-xs text-gray-500">days</p>
-                            </div>
-                          </div>
-                        ))
-                      )}
-                    </CardContent>
-                  </Card>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <LatestLogs setShowWalletModal={showWalletModal} />
+                  <LongestStreaks setShowWalletModal={showWalletModal} />
                 </div>
               </>
             ) : (

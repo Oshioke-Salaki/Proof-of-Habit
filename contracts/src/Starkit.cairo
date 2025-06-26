@@ -3,7 +3,7 @@ pub mod Starkit {
     use core::array::ArrayTrait;
     use core::num::traits::Zero;
     use core::traits::Into;
-    use starkit::base::types::{Entry, Habit};
+    use starkit::base::types::{Entry, Habit, RecentLog};
     use starkit::interfaces::IStarkit::IStarkit;
     use starknet::storage::*;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
@@ -31,6 +31,8 @@ pub mod Starkit {
         pub habit_logs: Map<(u32, u32), Entry>, // Maps (habit_id, log_index) to Entry struct
         pub longest_streaks: Map<ContractAddress, u32>,
         pub user_total_logs: Map<ContractAddress, u32>,
+        pub starkit_longest_streaks: Map<u32, Habit>,
+        pub latest_logs: Map<u32, RecentLog>,
     }
 
     #[event]
@@ -65,15 +67,15 @@ pub mod Starkit {
     pub impl StarkitImpl of IStarkit<ContractState> {
         fn set_user_name(ref self: ContractState, name: felt252) {
             let caller = get_caller_address();
-            assert(!caller.is_zero(), 'PoH: Zero address');
+            assert(!caller.is_zero(), 'Zero address');
 
             // Check if caller already has a username
             let existing_username = self.address_to_username.read(caller);
-            assert(existing_username.is_zero(), 'PoH: Username already set');
+            assert(existing_username.is_zero(), 'Username already set');
 
             // Check if username is already taken
             let existing_address = self.username_to_address.read(name);
-            assert(existing_address.is_zero(), 'PoH: Username taken');
+            assert(existing_address.is_zero(), 'Username taken');
 
             // Set the username mappings
             self.address_to_username.write(caller, name);
@@ -84,8 +86,9 @@ pub mod Starkit {
 
         fn create_habit(ref self: ContractState, infoUid: ByteArray) -> u32 {
             let caller = get_caller_address();
-            assert(!caller.is_zero(), 'PoH: Zero address');
-            // Optional: Could add a check that user has set a username
+            let caller_username = self.address_to_username.read(caller);
+            assert(!caller.is_zero(), 'Zero address');
+            assert(!caller_username.is_zero(), 'Username not set');
 
             let current_habit_id = self.next_habit_id.read();
             let new_habit_id = current_habit_id + 1;
@@ -96,11 +99,13 @@ pub mod Starkit {
             let new_habit = Habit {
                 id: new_habit_id,
                 owner: caller,
+                owner_username: self.address_to_username.read(caller),
                 info: infoUid,
                 created_at: current_timestamp,
                 last_log_at: 0, // 0 indicates no logs yet
                 streak_count: 0, // Streak starts at 0
                 total_log_count: 0,
+                public: true,
             };
 
             self.habits.write(new_habit_id, new_habit);
@@ -122,13 +127,13 @@ pub mod Starkit {
 
         fn log_entry(ref self: ContractState, habit_id: u32, log_info: ByteArray) {
             let caller = get_caller_address();
-            assert(!caller.is_zero(), 'PoH: Zero address');
+            assert(!caller.is_zero(), 'Zero address');
 
             // Check if habit exists and caller is owner
             let mut habit = self.habits.read(habit_id);
             let mut current_streak = habit.streak_count;
-            assert(!habit.owner.is_zero(), 'PoH: Habit not found');
-            assert(habit.owner == caller, 'PoH: Not habit owner');
+            assert(!habit.owner.is_zero(), 'Habit not found');
+            assert(habit.owner == caller, 'Not habit owner');
 
             let current_timestamp = get_block_timestamp();
 
@@ -139,7 +144,7 @@ pub mod Starkit {
             if habit.last_log_at != 0 { // Not the first log
                 assert(
                     current_timestamp >= habit.last_log_at + twenty_four_hours_in_seconds,
-                    'PoH: Log entry too soon',
+                    'Log entry too soon',
                 );
 
                 // Calculate streak
@@ -167,12 +172,68 @@ pub mod Starkit {
             self
                 .habit_log_count
                 .write(habit_id, habit.total_log_count + 1); // Update the log count map
-            self.habits.write(habit_id, habit); // Write back the updated habit struct
+            self.habits.write(habit_id, habit.clone()); // Write back the updated habit struct
 
             // Update user total logs
             let current_total_user_logs = self.user_total_logs.read(caller);
 
             self.user_total_logs.write(caller, current_total_user_logs + 1);
+
+            if (habit.public == true) {
+                let mut i = 1;
+                let mut smallest_longest_streak = 1;
+                while i < 6 {
+                    if (self.starkit_longest_streaks.read(i + 1).streak_count == 0) {
+                        smallest_longest_streak = i + 1;
+                        break;
+                    }
+                    if (self
+                        .starkit_longest_streaks
+                        .read(i + 1)
+                        .streak_count < self
+                        .starkit_longest_streaks
+                        .read(smallest_longest_streak)
+                        .streak_count) {
+                        smallest_longest_streak = i + 1;
+                    }
+                    i = i + 1;
+                }
+                self.starkit_longest_streaks.write(smallest_longest_streak, habit.clone());
+
+                let mut l = 1;
+                let mut earliest_log = 1;
+                while l < 6 {
+                    if (self.latest_logs.read(l + 1).timestamp == 0) {
+                        earliest_log = i + 1;
+                        break;
+                    }
+                    if (self
+                        .latest_logs
+                        .read(l + 1)
+                        .timestamp < self
+                        .latest_logs
+                        .read(earliest_log)
+                        .timestamp) {
+                        earliest_log = l + 1;
+                    }
+                    l = l + 1;
+                }
+
+                self
+                    .latest_logs
+                    .write(
+                        earliest_log,
+                        RecentLog {
+                            id: log_index + 1,
+                            username: self.address_to_username.read(caller),
+                            address: caller,
+                            habit_info: habit.clone().info,
+                            log_info: log_info.clone(),
+                            timestamp: current_timestamp.clone(),
+                            streak_count: current_streak + 1,
+                        },
+                    )
+            }
 
             // Update user's longest streak if necessary
             let current_longest = self.longest_streaks.read(caller);
@@ -276,6 +337,34 @@ pub mod Starkit {
 
         fn get_user_longest_streak(self: @ContractState, user: ContractAddress) -> u32 {
             self.longest_streaks.read(user)
+        }
+
+        fn get_platform_longest_streaks(self: @ContractState) -> Array<Habit> {
+            let mut longest_streaks: Array<Habit> = array![];
+
+            let mut i = 1;
+            while i < 6 {
+                let habit = self.starkit_longest_streaks.read(i);
+                if habit.id != 0 {
+                    longest_streaks.append(habit);
+                }
+                i = i + 1;
+            }
+            longest_streaks
+        }
+
+        fn get_recent_logs(self: @ContractState) -> Array<RecentLog> {
+            let mut recent_logs: Array<RecentLog> = array![];
+
+            let mut i = 1;
+            while i < 6 {
+                let log = self.latest_logs.read(i);
+                if log.id != 0 {
+                    recent_logs.append(log);
+                }
+                i = i + 1;
+            }
+            recent_logs
         }
     }
 }

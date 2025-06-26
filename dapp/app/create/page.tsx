@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,18 +13,34 @@ import toast from "react-hot-toast";
 import { Upload, Loader2, Target } from "lucide-react";
 import { useAccount } from "@starknet-react/core";
 import { BEARER_TOKEN, myProvider } from "@/lib/utils";
-import { STARKIT_CONTRACT_ADDRESS } from "@/hooks/useBlockchain";
+import {
+  STARKIT_CONTRACT_ADDRESS,
+  useContractFetch,
+} from "@/hooks/useBlockchain";
 import { CallData } from "starknet";
+import { STARKIT_ABI } from "../abis/starkit_abi";
 
 export default function CreateHabitPage() {
   const { address, account } = useAccount();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const {
+    readData: usernameData,
+    dataRefetch: refetchUsername,
+    readIsLoading: usernameIsLoading,
+  } = useContractFetch(STARKIT_ABI, "get_user_name", [address]);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     picture: null as File | null,
   });
+
+  useEffect(() => {
+    if (!usernameData) {
+      toast("Set a username before creating a habit", { duration: 1000 });
+      router.push("/set-username");
+    }
+  }, []);
 
   if (!address) {
     router.push("/");
@@ -115,6 +131,7 @@ export default function CreateHabitPage() {
         router.push("/my-habits");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Failed to create habit. Please try again.");
     } finally {
       setLoading(false);

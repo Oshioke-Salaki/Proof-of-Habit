@@ -25,6 +25,20 @@ export const STARKIT_ABI: Abi = [
     ],
   },
   {
+    type: "enum",
+    name: "core::bool",
+    variants: [
+      {
+        name: "False",
+        type: "()",
+      },
+      {
+        name: "True",
+        type: "()",
+      },
+    ],
+  },
+  {
     type: "struct",
     name: "starkit::base::types::Habit",
     members: [
@@ -35,6 +49,10 @@ export const STARKIT_ABI: Abi = [
       {
         name: "owner",
         type: "core::starknet::contract_address::ContractAddress",
+      },
+      {
+        name: "owner_username",
+        type: "core::felt252",
       },
       {
         name: "info",
@@ -56,6 +74,10 @@ export const STARKIT_ABI: Abi = [
         name: "total_log_count",
         type: "core::integer::u32",
       },
+      {
+        name: "public",
+        type: "core::bool",
+      },
     ],
   },
   {
@@ -73,6 +95,40 @@ export const STARKIT_ABI: Abi = [
       {
         name: "timestamp",
         type: "core::integer::u64",
+      },
+    ],
+  },
+  {
+    type: "struct",
+    name: "starkit::base::types::RecentLog",
+    members: [
+      {
+        name: "id",
+        type: "core::integer::u32",
+      },
+      {
+        name: "username",
+        type: "core::felt252",
+      },
+      {
+        name: "address",
+        type: "core::starknet::contract_address::ContractAddress",
+      },
+      {
+        name: "habit_info",
+        type: "core::byte_array::ByteArray",
+      },
+      {
+        name: "log_info",
+        type: "core::byte_array::ByteArray",
+      },
+      {
+        name: "timestamp",
+        type: "core::integer::u64",
+      },
+      {
+        name: "streak_count",
+        type: "core::integer::u32",
       },
     ],
   },
@@ -299,6 +355,28 @@ export const STARKIT_ABI: Abi = [
         outputs: [
           {
             type: "core::integer::u32",
+          },
+        ],
+        state_mutability: "view",
+      },
+      {
+        type: "function",
+        name: "get_platform_longest_streaks",
+        inputs: [],
+        outputs: [
+          {
+            type: "core::array::Array::<starkit::base::types::Habit>",
+          },
+        ],
+        state_mutability: "view",
+      },
+      {
+        type: "function",
+        name: "get_recent_logs",
+        inputs: [],
+        outputs: [
+          {
+            type: "core::array::Array::<starkit::base::types::RecentLog>",
           },
         ],
         state_mutability: "view",
