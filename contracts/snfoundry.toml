@@ -11,7 +11,10 @@
 # show-explorer-links = true                               # Print links pointing to pages with transaction details in the chosen block explorer
 
 
-[sncast.sepolia]
-url="https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_8/L-VhhXxIK2EZXjZfcTn-q5tY4u_GHkoc"
-network="sepolia"
-account="hello_account"
+[sncast.mainnet]
+url="https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8/cmootBfOhD5Yjs5hTaEY3hf5PlFabEO_"
+network="mainnet"
+account="oshioke_mainnet"
+
+[sncast.default]
+account = "oshioke_mainnet"

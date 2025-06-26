@@ -29,6 +29,8 @@ export function Navigation() {
   );
   const [showWalletModal, setShowWalletModal] = useState(false);
 
+  console.log(usernameData);
+
   const navItems = [
     { href: "/", label: "Home", icon: Home },
     {
