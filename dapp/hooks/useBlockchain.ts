@@ -63,8 +63,6 @@ export function useContractWriteUtility(
     return [contract.populate(functionName, args)];
   }, [contract, functionName, args]);
 
-  console.log(calls, "this is the call");
-
   const {
     send: writeAsync,
     data: writeData,
@@ -102,7 +100,6 @@ export function useContractWriteUtilityWithArgs(
   const { contract } = useContract({ abi, address: STARKIT_CONTRACT_ADDRESS });
 
   const writeWithArgs = async (args: any[]) => {
-    console.log(args, "calling contract with args");
     let calls;
 
     if (
@@ -116,7 +113,6 @@ export function useContractWriteUtilityWithArgs(
     } else {
       calls = [contract.populate(functionName, args)];
     }
-    console.log(calls, "calls");
 
     const {
       send: writeAsync,

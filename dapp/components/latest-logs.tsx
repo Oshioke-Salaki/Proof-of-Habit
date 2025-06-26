@@ -28,7 +28,6 @@ function LatestLogs({ setShowWalletModal }: { setShowWalletModal: any }) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(isLoadingContractLogs, "loading logs");
     if (!address) {
       return;
     }
@@ -37,7 +36,6 @@ function LatestLogs({ setShowWalletModal }: { setShowWalletModal: any }) {
       try {
         setIsLoading(true);
         if (!contractLogs || contractLogs.length === 0) return;
-        console.log(contractLogs, "contract logs");
 
         const habitInfoPromises = contractLogs.map((log: any) =>
           fetchContentFromIPFS(log.habit_info)
@@ -48,9 +46,6 @@ function LatestLogs({ setShowWalletModal }: { setShowWalletModal: any }) {
 
         const habitInfo: any = await Promise.all(habitInfoPromises);
         const logInfo: any = await Promise.all(logInfoPromises);
-
-        console.log(habitInfo, "habit info");
-        console.log(logInfo, "log info");
 
         const cleanedLogs = contractLogs
           .map((log: any, i: number) => ({
@@ -63,8 +58,6 @@ function LatestLogs({ setShowWalletModal }: { setShowWalletModal: any }) {
           }))
           .sort((a: any, b: any) => Number(b.timestamp) - Number(a.timestamp))
           .slice(0, 4);
-
-        console.log(cleanedLogs, "cleaned logs");
 
         setLogs(cleanedLogs);
       } catch (err) {

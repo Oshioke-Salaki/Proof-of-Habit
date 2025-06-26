@@ -86,10 +86,6 @@ export default function CreateHabitPage() {
       );
 
       const image_upload_resData = await image_upload_res.json();
-
-      console.log(image_upload_res, "finished uploading image");
-
-      console.log("started uploading URI");
       let habit_metadata = JSON.stringify({
         id: Date.now() + Math.floor(Math.random() * 1000),
         image: `ipfs://${image_upload_resData.IpfsHash}/`,
@@ -112,8 +108,6 @@ export default function CreateHabitPage() {
 
       const metadata_upload_resData = await metadata_upload_res.json();
 
-      console.log(metadata_upload_resData, "finished uploading metadata");
-
       const result = await account.execute({
         contractAddress: STARKIT_CONTRACT_ADDRESS,
         entrypoint: "create_habit",
@@ -131,7 +125,6 @@ export default function CreateHabitPage() {
         router.push("/my-habits");
       }
     } catch (error) {
-      console.log(error);
       toast.error("Failed to create habit. Please try again.");
     } finally {
       setLoading(false);

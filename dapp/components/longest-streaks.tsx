@@ -33,9 +33,6 @@ function LongestStreaks({ setShowWalletModal }: { setShowWalletModal: any }) {
         if (!platformLongestStreaks || platformLongestStreaks.length === 0)
           return;
 
-        console.log(platformLongestStreaks);
-
-        console.log(platformLongestStreaks);
         const habitPromises = platformLongestStreaks.map((habit: any) =>
           fetchContentFromIPFS(habit.info)
         );

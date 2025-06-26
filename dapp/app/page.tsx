@@ -32,8 +32,6 @@ export default function HomePage() {
 
   useEffect(() => {
     if (!readData) return;
-    console.log(shortString.decodeShortString(readData), "read data");
-    console.log(readIsLoading, "loading read data");
     dataRefetch();
   }, [readData, readIsLoading]);
 
