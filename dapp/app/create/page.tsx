@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import { Upload, Loader2, Target } from "lucide-react";
 import { useAccount } from "@starknet-react/core";
 import { BEARER_TOKEN, myProvider } from "@/lib/utils";
-import { POH_CONTRACT_ADDRESS } from "@/hooks/useBlockchain";
+import { STARKIT_CONTRACT_ADDRESS } from "@/hooks/useBlockchain";
 import { CallData } from "starknet";
 
 export default function CreateHabitPage() {
@@ -99,7 +99,7 @@ export default function CreateHabitPage() {
       console.log(metadata_upload_resData, "finished uploading metadata");
 
       const result = await account.execute({
-        contractAddress: POH_CONTRACT_ADDRESS,
+        contractAddress: STARKIT_CONTRACT_ADDRESS,
         entrypoint: "create_habit",
         calldata: CallData.compile({
           infoUid: metadata_upload_resData.IpfsHash,

@@ -1,10 +1,10 @@
 import { Abi } from "starknet";
 
-export const PROOFOFHABIT_ABI: Abi = [
+export const STARKIT_ABI: Abi = [
   {
     type: "impl",
-    name: "ProofOfHabitImpl",
-    interface_name: "proof_of_habit::interfaces::IProofOfHabit::IProofOfHabit",
+    name: "StarkitImpl",
+    interface_name: "starkit::interfaces::IStarkit::IStarkit",
   },
   {
     type: "struct",
@@ -26,7 +26,7 @@ export const PROOFOFHABIT_ABI: Abi = [
   },
   {
     type: "struct",
-    name: "proof_of_habit::base::types::Habit",
+    name: "starkit::base::types::Habit",
     members: [
       {
         name: "id",
@@ -60,7 +60,7 @@ export const PROOFOFHABIT_ABI: Abi = [
   },
   {
     type: "struct",
-    name: "proof_of_habit::base::types::Entry",
+    name: "starkit::base::types::Entry",
     members: [
       {
         name: "id",
@@ -78,7 +78,7 @@ export const PROOFOFHABIT_ABI: Abi = [
   },
   {
     type: "interface",
-    name: "proof_of_habit::interfaces::IProofOfHabit::IProofOfHabit",
+    name: "starkit::interfaces::IStarkit::IStarkit",
     items: [
       {
         type: "function",
@@ -135,7 +135,7 @@ export const PROOFOFHABIT_ABI: Abi = [
         ],
         outputs: [
           {
-            type: "core::array::Array::<proof_of_habit::base::types::Habit>",
+            type: "core::array::Array::<starkit::base::types::Habit>",
           },
         ],
         state_mutability: "view",
@@ -175,7 +175,7 @@ export const PROOFOFHABIT_ABI: Abi = [
         ],
         outputs: [
           {
-            type: "core::array::Array::<proof_of_habit::base::types::Entry>",
+            type: "core::array::Array::<starkit::base::types::Entry>",
           },
         ],
         state_mutability: "view",
@@ -307,7 +307,7 @@ export const PROOFOFHABIT_ABI: Abi = [
   },
   {
     type: "event",
-    name: "proof_of_habit::ProofOfHabit::ProofOfHabit::UsernameSet",
+    name: "starkit::Starkit::Starkit::UsernameSet",
     kind: "struct",
     members: [
       {
@@ -324,7 +324,7 @@ export const PROOFOFHABIT_ABI: Abi = [
   },
   {
     type: "event",
-    name: "proof_of_habit::ProofOfHabit::ProofOfHabit::HabitCreated",
+    name: "starkit::Starkit::Starkit::HabitCreated",
     kind: "struct",
     members: [
       {
@@ -341,7 +341,7 @@ export const PROOFOFHABIT_ABI: Abi = [
   },
   {
     type: "event",
-    name: "proof_of_habit::ProofOfHabit::ProofOfHabit::EntryLogged",
+    name: "starkit::Starkit::Starkit::EntryLogged",
     kind: "struct",
     members: [
       {
@@ -363,22 +363,22 @@ export const PROOFOFHABIT_ABI: Abi = [
   },
   {
     type: "event",
-    name: "proof_of_habit::ProofOfHabit::ProofOfHabit::Event",
+    name: "starkit::Starkit::Starkit::Event",
     kind: "enum",
     variants: [
       {
         name: "UsernameSet",
-        type: "proof_of_habit::ProofOfHabit::ProofOfHabit::UsernameSet",
+        type: "starkit::Starkit::Starkit::UsernameSet",
         kind: "nested",
       },
       {
         name: "HabitCreated",
-        type: "proof_of_habit::ProofOfHabit::ProofOfHabit::HabitCreated",
+        type: "starkit::Starkit::Starkit::HabitCreated",
         kind: "nested",
       },
       {
         name: "EntryLogged",
-        type: "proof_of_habit::ProofOfHabit::ProofOfHabit::EntryLogged",
+        type: "starkit::Starkit::Starkit::EntryLogged",
         kind: "nested",
       },
     ],

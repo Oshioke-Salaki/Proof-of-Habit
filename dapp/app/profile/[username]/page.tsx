@@ -1,14 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Flame, Target, Calendar, ExternalLink } from "lucide-react";
-import { useContractFetch } from "@/hooks/useBlockchain";
-import { PROOFOFHABIT_ABI } from "@/app/abis/proof_of_habit_abi";
 import { useAccount } from "@starknet-react/core";
 import { shortenAddress } from "@/lib/utils";
 import { useUserHabits } from "@/hooks/useUserHabits";

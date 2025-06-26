@@ -2,42 +2,23 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Flame, Trophy, ArrowRight, Loader2 } from "lucide-react";
+import { Flame, ArrowRight, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { WalletConnectModal } from "@/components/wallet-connect-modal";
 import { useAccount } from "@starknet-react/core";
-import { mockLogs } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useContractFetch } from "@/hooks/useBlockchain";
-import { PROOFOFHABIT_ABI } from "./abis/proof_of_habit_abi";
+import { STARKIT_ABI } from "./abis/starkit_abi";
 import { shortString } from "starknet";
 import { useUserHabits } from "@/hooks/useUserHabits";
 import { RefreshButton } from "@/components/refresh-button";
 
-// Helper: return an emoji that matches a habit title
-function getHabitEmoji(title: string) {
-  const lower = title.toLowerCase();
-  if (
-    lower.includes("workout") ||
-    lower.includes("exercise") ||
-    lower.includes("gym")
-  )
-    return "💪";
-  if (lower.includes("read") || lower.includes("book")) return "📚";
-  if (lower.includes("meditat") || lower.includes("mindful")) return "🧘‍♀️";
-  if (lower.includes("water") || lower.includes("drink")) return "💧";
-  if (lower.includes("sleep") || lower.includes("wake")) return "😴";
-  if (lower.includes("journal") || lower.includes("write")) return "✍️";
-  return "🎯";
-}
-
 export default function HomePage() {
   const { address } = useAccount();
   const router = useRouter();
-  const recentLogs = mockLogs;
   const [showWalletModal, setShowWalletModal] = useState(false);
   const { readData, dataRefetch, readIsLoading } = useContractFetch(
-    PROOFOFHABIT_ABI,
+    STARKIT_ABI,
     "get_user_name",
     ["0x07af08dad44af4f7461979294f7eff8d3617c27c7c3e3f8222fd2a871517e719"]
   );

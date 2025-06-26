@@ -11,8 +11,11 @@ import { Label } from "@/components/ui/label";
 import toast from "react-hot-toast";
 import { User, Loader2, CheckIcon, XIcon } from "lucide-react";
 import { useAccount } from "@starknet-react/core";
-import { PROOFOFHABIT_ABI } from "../abis/proof_of_habit_abi";
-import { POH_CONTRACT_ADDRESS, useContractFetch } from "@/hooks/useBlockchain";
+import { STARKIT_ABI } from "../abis/starkit_abi";
+import {
+  STARKIT_CONTRACT_ADDRESS,
+  useContractFetch,
+} from "@/hooks/useBlockchain";
 import { CallData, shortString } from "starknet";
 import { myProvider } from "@/lib/utils";
 import ButtonContent from "@/components/button-content";
@@ -24,7 +27,7 @@ export default function SetUsernamePage() {
     readData: usernameData,
     dataRefetch: refetchUsername,
     readIsLoading: usernameIsLoading,
-  } = useContractFetch(PROOFOFHABIT_ABI, "get_user_name", [address]);
+  } = useContractFetch(STARKIT_ABI, "get_user_name", [address]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [inputUsername, setInputUsername] = useState("");
@@ -73,7 +76,7 @@ export default function SetUsernamePage() {
 
     try {
       const result = await account.execute({
-        contractAddress: POH_CONTRACT_ADDRESS,
+        contractAddress: STARKIT_CONTRACT_ADDRESS,
         entrypoint: "set_user_name",
         calldata: CallData.compile({
           name: inputUsername,

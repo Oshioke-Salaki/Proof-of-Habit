@@ -15,15 +15,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAccount, useDisconnect } from "@starknet-react/core";
 import { useContractFetch } from "@/hooks/useBlockchain";
-import { PROOFOFHABIT_ABI } from "@/app/abis/proof_of_habit_abi";
 import { shortString } from "starknet";
+import { STARKIT_ABI } from "@/app/abis/starkit_abi";
 
 export function Navigation() {
   const pathname = usePathname();
   const { isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
   const { readData: usernameData } = useContractFetch(
-    PROOFOFHABIT_ABI,
+    STARKIT_ABI,
     "get_user_name",
     [address]
   );

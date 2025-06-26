@@ -7,8 +7,8 @@ import {
 } from "@starknet-react/core";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Abi, Contract, RpcProvider } from "starknet";
-export const POH_CONTRACT_ADDRESS =
-  "0x076b83bb4ce5733ffe43ac19db3b310cd887af1e26fd4e3f653f68f383e10d5c";
+export const STARKIT_CONTRACT_ADDRESS =
+  "0x0258a6532dd14e04b1ec60553b3c89d57ff8ed451f2015a0a4753fecb5c6f7f7";
 
 // Utility function to perform contract read operations
 export function useContractFetch(
@@ -26,7 +26,7 @@ export function useContractFetch(
   } = useReadContract({
     abi: abi,
     functionName: functionName,
-    address: POH_CONTRACT_ADDRESS,
+    address: STARKIT_CONTRACT_ADDRESS,
     args: args,
     refetchInterval: 600000,
   });
@@ -47,7 +47,7 @@ export function useContractWriteUtility(
   args: any[],
   abi: Abi
 ) {
-  const { contract } = useContract({ abi, address: POH_CONTRACT_ADDRESS });
+  const { contract } = useContract({ abi, address: STARKIT_CONTRACT_ADDRESS });
 
   const calls = useMemo(() => {
     if (
@@ -99,7 +99,7 @@ export function useContractWriteUtilityWithArgs(
   functionName: string,
   abi: Abi
 ) {
-  const { contract } = useContract({ abi, address: POH_CONTRACT_ADDRESS });
+  const { contract } = useContract({ abi, address: STARKIT_CONTRACT_ADDRESS });
 
   const writeWithArgs = async (args: any[]) => {
     console.log(args, "calling contract with args");
@@ -172,7 +172,7 @@ export function useContractEvents(
   const checkForEvents = useCallback(
     async (currentBlockNumber: number) => {
       if (
-        !POH_CONTRACT_ADDRESS ||
+        !STARKIT_CONTRACT_ADDRESS ||
         currentBlockNumber <= lastCheckedBlockRef.current
       ) {
         return;
@@ -181,7 +181,7 @@ export function useContractEvents(
       try {
         const fromBlock = lastCheckedBlockRef.current + 1;
         const fetchedEvents = await provider.getEvents({
-          address: POH_CONTRACT_ADDRESS,
+          address: STARKIT_CONTRACT_ADDRESS,
           from_block: { block_number: fromBlock },
           to_block: { block_number: currentBlockNumber },
           chunk_size: 500,
@@ -196,14 +196,14 @@ export function useContractEvents(
         console.error("Error checking for events:", error);
       }
     },
-    [POH_CONTRACT_ADDRESS, provider]
+    [STARKIT_CONTRACT_ADDRESS, provider]
   );
 
   useEffect(() => {
-    if (enabled && POH_CONTRACT_ADDRESS && blockNumber) {
+    if (enabled && STARKIT_CONTRACT_ADDRESS && blockNumber) {
       checkForEvents(blockNumber);
     }
-  }, [POH_CONTRACT_ADDRESS, blockNumber, checkForEvents, enabled]);
+  }, [STARKIT_CONTRACT_ADDRESS, blockNumber, checkForEvents, enabled]);
 
   const lastEvents = useMemo(() => {
     return [...events].reverse().slice(0, limit);
@@ -225,13 +225,13 @@ export async function readContractFunctionWithStarknetJs(
   });
 
   // Get the contract ABI from the chain
-  const { abi } = await provider.getClassAt(POH_CONTRACT_ADDRESS);
+  const { abi } = await provider.getClassAt(STARKIT_CONTRACT_ADDRESS);
   if (!abi) {
     throw new Error("No ABI found for the contract.");
   }
 
   // Instantiate contract
-  const contract = new Contract(abi, POH_CONTRACT_ADDRESS, provider);
+  const contract = new Contract(abi, STARKIT_CONTRACT_ADDRESS, provider);
 
   // Dynamically call the function
   if (typeof contract[functionName] !== "function") {

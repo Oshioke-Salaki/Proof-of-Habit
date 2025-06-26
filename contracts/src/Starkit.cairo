@@ -1,10 +1,10 @@
 #[starknet::contract]
-pub mod ProofOfHabit {
-    use core::array::{ArrayTrait};
+pub mod Starkit {
+    use core::array::ArrayTrait;
     use core::num::traits::Zero;
     use core::traits::Into;
-    use proof_of_habit::base::types::{Entry, Habit};
-    use proof_of_habit::interfaces::IProofOfHabit::IProofOfHabit;
+    use starkit::base::types::{Entry, Habit};
+    use starkit::interfaces::IStarkit::IStarkit;
     use starknet::storage::*;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
@@ -25,9 +25,7 @@ pub mod ProofOfHabit {
         pub user_habit_count: Map<
             ContractAddress, u32,
         >, // Maps user address to their total habit count
-        pub user_habits_id_list: Map<
-            (ContractAddress, u32), u32,
-        >, // Maps (user, index) to habit_id
+        pub user_habits_id_list: Map<(ContractAddress, u32), u32>, // Maps (user, index) to habit_id
         // Habit logging
         pub habit_log_count: Map<u32, u32>, // Maps habit_id to its total log count
         pub habit_logs: Map<(u32, u32), Entry>, // Maps (habit_id, log_index) to Entry struct
@@ -59,12 +57,12 @@ pub mod ProofOfHabit {
     pub struct EntryLogged {
         pub habit_id: u32,
         pub timestamp: u64,
-       pub log_info: ByteArray
+        pub log_info: ByteArray,
     }
 
 
     #[abi(embed_v0)]
-    pub impl ProofOfHabitImpl of IProofOfHabit<ContractState> {
+    pub impl StarkitImpl of IStarkit<ContractState> {
         fn set_user_name(ref self: ContractState, name: felt252) {
             let caller = get_caller_address();
             assert(!caller.is_zero(), 'PoH: Zero address');
@@ -117,19 +115,12 @@ pub mod ProofOfHabit {
             // Initialize log count for the new habit
             self.habit_log_count.write(new_habit_id, 0);
 
-            self
-                .emit(
-                    Event::HabitCreated(
-                        HabitCreated { owner: caller, habit_id: new_habit_id },
-                    ),
-                );
+            self.emit(Event::HabitCreated(HabitCreated { owner: caller, habit_id: new_habit_id }));
 
             new_habit_id
         }
 
-        fn log_entry(
-            ref self: ContractState, habit_id: u32, log_info: ByteArray,
-        ) {
+        fn log_entry(ref self: ContractState, habit_id: u32, log_info: ByteArray) {
             let caller = get_caller_address();
             assert(!caller.is_zero(), 'PoH: Zero address');
 
@@ -173,7 +164,9 @@ pub mod ProofOfHabit {
             // Update habit stats
             habit.last_log_at = current_timestamp;
             habit.total_log_count = habit.total_log_count + 1;
-            self.habit_log_count.write(habit_id, habit.total_log_count + 1); // Update the log count map
+            self
+                .habit_log_count
+                .write(habit_id, habit.total_log_count + 1); // Update the log count map
             self.habits.write(habit_id, habit); // Write back the updated habit struct
 
             // Update user total logs
@@ -190,11 +183,7 @@ pub mod ProofOfHabit {
             self
                 .emit(
                     Event::EntryLogged(
-                        EntryLogged {
-                            habit_id: habit_id,
-                            timestamp: current_timestamp,
-                            log_info
-                        },
+                        EntryLogged { habit_id: habit_id, timestamp: current_timestamp, log_info },
                     ),
                 );
         }
@@ -276,7 +265,7 @@ pub mod ProofOfHabit {
             self.habit_log_count.read(habit_id)
         }
 
-        fn get_total_logs_user(self: @ContractState, user: ContractAddress) -> u32{
+        fn get_total_logs_user(self: @ContractState, user: ContractAddress) -> u32 {
             self.user_total_logs.read(user)
         }
 

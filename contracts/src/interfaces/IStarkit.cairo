@@ -1,7 +1,7 @@
-use proof_of_habit::base::types::{Entry, Habit};
+use starkit::base::types::{Entry, Habit};
 use starknet::ContractAddress;
 #[starknet::interface]
-pub trait IProofOfHabit<TContractState> {
+pub trait IStarkit<TContractState> {
     /// Sets a unique username for the caller's wallet address.
     /// # Arguments
     /// * `name` - The desired username.
@@ -22,9 +22,7 @@ pub trait IProofOfHabit<TContractState> {
     /// * `habit_id` - The ID of the habit to log for.
     /// * `message` - The message for the log entry.
     /// * `picture_uri` - The URI for the associated picture (e.g., IPFS link).
-    fn log_entry(
-        ref self: TContractState, habit_id: u32, log_info: ByteArray,
-    );
+    fn log_entry(ref self: TContractState, habit_id: u32, log_info: ByteArray);
 
     fn get_user_habits(self: @TContractState, user: ContractAddress) -> Array<Habit>;
 
@@ -42,9 +40,7 @@ pub trait IProofOfHabit<TContractState> {
     /// * `count` - The maximum number of entries to retrieve.
     /// # Returns
     /// An array of log entries.
-    fn get_habit_logs(
-        self: @TContractState, habit_id: u32, start: u32, count: u32,
-    ) -> Array<Entry>;
+    fn get_habit_logs(self: @TContractState, habit_id: u32, start: u32, count: u32) -> Array<Entry>;
 
     /// Retrieves the current streak count for a habit.
     /// # Arguments

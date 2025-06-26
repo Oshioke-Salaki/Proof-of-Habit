@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchContentFromIPFS, useContractFetch } from "@/hooks/useBlockchain";
-import { PROOFOFHABIT_ABI } from "@/app/abis/proof_of_habit_abi";
+import { STARKIT_ABI } from "@/app/abis/starkit_abi";
 
 export function useHabitDetails(
   address: string | undefined,
@@ -17,7 +17,7 @@ export function useHabitDetails(
     dataRefetch: refetchHabitDetails,
     readIsLoading: isLoadingHabits,
     readRefetching: isRefetchingHabits,
-  } = useContractFetch(PROOFOFHABIT_ABI, "get_user_habits", [address]);
+  } = useContractFetch(STARKIT_ABI, "get_user_habits", [address]);
 
   useEffect(() => {
     if (!address) {

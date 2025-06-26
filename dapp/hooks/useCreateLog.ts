@@ -1,6 +1,6 @@
 // useCreateLog.ts
 import { useState } from "react";
-import { POH_CONTRACT_ADDRESS } from "@/hooks/useBlockchain";
+import { STARKIT_CONTRACT_ADDRESS } from "@/hooks/useBlockchain";
 import { BEARER_TOKEN, myProvider } from "@/lib/utils";
 import toast from "react-hot-toast";
 import { useAccount } from "@starknet-react/core";
@@ -64,7 +64,7 @@ export function useCreateLog(
       const metadata = await metadataRes.json();
 
       const result = await account.execute({
-        contractAddress: POH_CONTRACT_ADDRESS,
+        contractAddress: STARKIT_CONTRACT_ADDRESS,
         entrypoint: "log_entry",
         calldata: CallData.compile({
           habit_id: habitId,

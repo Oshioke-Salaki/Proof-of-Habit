@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { Plus, Flame, Calendar, Clock, Target } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useAccount } from "@starknet-react/core";
 import { RefreshButton } from "@/components/refresh-button";
 import { canLogTodayFromEpoch, getTimeUntilNextLog } from "@/lib/utils";

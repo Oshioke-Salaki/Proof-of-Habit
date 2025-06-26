@@ -1,8 +1,8 @@
 // useHabitLogs.ts
 import { useEffect, useState } from "react";
 import { fetchContentFromIPFS, useContractFetch } from "@/hooks/useBlockchain";
-import { PROOFOFHABIT_ABI } from "@/app/abis/proof_of_habit_abi";
 import toast from "react-hot-toast";
+import { STARKIT_ABI } from "@/app/abis/starkit_abi";
 
 export function useHabitLogs(habitId: string | string[]) {
   const [isLoadingLogs, setIsLoadingLogs] = useState(true);
@@ -11,7 +11,7 @@ export function useHabitLogs(habitId: string | string[]) {
   );
 
   const { readData: totalLogs } = useContractFetch(
-    PROOFOFHABIT_ABI,
+    STARKIT_ABI,
     "get_habit_log_count",
     [habitId]
   );
@@ -21,11 +21,7 @@ export function useHabitLogs(habitId: string | string[]) {
     readIsLoading: isLoadingRawLogs,
     dataRefetch: refetchLogs,
     readRefetching: isRefetchingRawLogs,
-  } = useContractFetch(PROOFOFHABIT_ABI, "get_habit_logs", [
-    habitId,
-    1,
-    totalLogs,
-  ]);
+  } = useContractFetch(STARKIT_ABI, "get_habit_logs", [habitId, 1, totalLogs]);
 
   useEffect(() => {
     async function fetchAndFormatLogs() {

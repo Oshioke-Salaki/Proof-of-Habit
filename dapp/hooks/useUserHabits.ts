@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchContentFromIPFS, useContractFetch } from "@/hooks/useBlockchain";
-import { PROOFOFHABIT_ABI } from "@/app/abis/proof_of_habit_abi";
+import { STARKIT_ABI } from "@/app/abis/starkit_abi";
 
 export function useUserHabits(address: string | undefined) {
   const [habits, setHabits] = useState<any[]>([]);
@@ -13,7 +13,7 @@ export function useUserHabits(address: string | undefined) {
     readIsLoading: isLoadingContractHabits,
     dataRefetch: refetchContractHabits,
     readRefetching: isRefetchContractHabits,
-  } = useContractFetch(PROOFOFHABIT_ABI, "get_user_habits", [address]);
+  } = useContractFetch(STARKIT_ABI, "get_user_habits", [address]);
 
   useEffect(() => {
     if (!address) {

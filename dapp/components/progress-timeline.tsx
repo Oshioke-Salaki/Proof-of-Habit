@@ -26,7 +26,10 @@ function ProgressTimeline({
   }
   if (!logsLength) {
     return (
-      <Card className="bg-white/80 backdrop-blur-sm border-purple-100 text-center py-12">
+      <Card className="bg-white/80 backdrop-blur-sm border-purple-100 text-center py-12 relative">
+        <div className="flex justify-end absolute top-4 right-4">
+          <RefreshButton onRefresh={refetchLogs} />
+        </div>
         <CardContent>
           <div className="text-6xl mb-4">🔥</div>
           <h3 className="text-xl font-semibold mb-2">No logs yet</h3>

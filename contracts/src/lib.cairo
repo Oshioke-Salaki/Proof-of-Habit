@@ -3,7 +3,7 @@ pub mod base {
 }
 
 pub mod interfaces {
-    pub mod IProofOfHabit;
+    pub mod IStarkit;
 }
 
-pub mod ProofOfHabit;
+pub mod Starkit;
