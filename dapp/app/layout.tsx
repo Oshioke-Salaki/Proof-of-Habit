@@ -5,6 +5,7 @@ import "./globals.css";
 import { Navigation } from "@/components/navigation";
 import { Providers } from "@/components/Providers";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Analytics />
         <Providers>
           <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
             <Navigation />
