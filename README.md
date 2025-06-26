@@ -13,6 +13,9 @@
 - 🌱 **Streak Building**  
   Stay consistent and grow your streaks — miss a day, and it resets.
 
+- 🏆 **Leaderboard & Activity Feed**  
+  Discover public habits with the highest streaks and see recent logs from users.
+
 - 👤 **User Profiles**  
   Set your username and showcase your habits.
 
