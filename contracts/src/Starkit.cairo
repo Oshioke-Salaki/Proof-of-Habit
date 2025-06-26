@@ -18,14 +18,12 @@ pub mod Starkit {
             felt252, ContractAddress,
         >, // Maps username to address for uniqueness check
         pub address_to_username: Map<ContractAddress, felt252>, // Maps address to username
-
         pub next_habit_id: u32, // Counter for unique habit IDs
         pub habits: Map<u32, Habit>, // Maps habit_id to Habit struct
         pub user_habit_count: Map<
             ContractAddress, u32,
         >, // Maps user address to their total habit count
         pub user_habits_id_list: Map<(ContractAddress, u32), u32>, // Maps (user, index) to habit_id
-        
         pub habit_log_count: Map<u32, u32>, // Maps habit_id to its total log count
         pub habit_logs: Map<(u32, u32), Entry>, // Maps (habit_id, log_index) to Entry struct
         pub longest_streaks: Map<ContractAddress, u32>,
