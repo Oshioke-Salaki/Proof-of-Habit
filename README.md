@@ -2,8 +2,6 @@
 
 **StarkIt** is an onchain habit tracker built on **Starknet🚀**. It helps users build consistency through daily habit logging, visual streaks, and public accountability — all while embracing the transparency and permanence of blockchain.
 
----
-
 ## 🚀 Features
 
 - ✅ **Create Habits**  
@@ -24,7 +22,13 @@
 - ⛓️ **Fully Onchain**  
   All core actions (habit creation, logging, usernames) are stored on Starknet.
 
----
+## 💡 Motivation
+
+Building better habits is hard. StarkIt brings accountability, ownership, and transparency to the process — all powered by decentralized infrastructure.
+
+## 🧱 Built for Starknet
+
+StarkIt was designed during a 100-hour builder sprint to showcase the power of Starknet for everyday apps. From storage-efficient Cairo contracts to modular frontend components, this project serves as a playful but powerful proof-of-concept.
 
 ## 🛠 Tech Stack
 
