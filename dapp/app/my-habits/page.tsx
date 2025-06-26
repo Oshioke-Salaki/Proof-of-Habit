@@ -112,8 +112,15 @@ export default function MyHabitsPage() {
                         <div className="flex items-center space-x-1 text-gray-600">
                           <Calendar className="w-4 h-4" />
                           <span>
-                            {habit.lastLogTime
-                              ? new Date(habit.lastLogTime).toLocaleDateString()
+                            {habit.last_log_at
+                              ? new Date(
+                                  Number(habit.last_log_at) * 1000
+                                ).toLocaleString("en-GB", {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                  hour12: false,
+                                })
                               : "Never"}
                           </span>
                         </div>
