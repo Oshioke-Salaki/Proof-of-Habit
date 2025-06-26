@@ -31,7 +31,7 @@ Building better habits is hard. StarkIt brings accountability, ownership, and tr
 
 ## 🧱 Built for Starknet
 
-StarkIt was designed during a 100-hour builder sprint to showcase the power of Starknet for everyday apps. From storage-efficient Cairo contracts to modular frontend components, this project serves as a playful but powerful proof-of-concept.
+StarkIt was designed during 100-hour vibathon powered by Starkware and the Starknet Foundation to showcase the power of Starknet for everyday apps. From storage-efficient Cairo contracts to modular frontend components, this project serves as a playful but powerful proof-of-concept.
 
 ## 🛠 Tech Stack
 
