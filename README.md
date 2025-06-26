@@ -40,3 +40,23 @@ StarkIt was designed during a 100-hour builder sprint to showcase the power of S
 - **starknet.js** – Starknet integration
 - **Pinata + IPFS** – Decentralized media storage
 - **TailwindCSS**
+
+--
+
+## 🧪 Local Setup (Frontend)
+
+```bash
+git clone https://github.com/Oshioke-Salaki/Starkit
+cd starkit/dapp
+npm install
+npm run dev
+```
+
+## 🧪 Local Setup (Contracts)
+
+```bash
+git clone https://github.com/Oshioke-Salaki/Starkit
+cd starkit/contracts
+scarb fmt
+scarb build
+```
