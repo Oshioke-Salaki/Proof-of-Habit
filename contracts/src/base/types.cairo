@@ -20,13 +20,6 @@ pub struct Entry {
 }
 
 #[derive(Drop, Serde, starknet::Store)]
-pub struct User {
-    pub id: u32,
-    pub address: ContractAddress,
-    pub username: felt252,
-}
-
-#[derive(Drop, Serde, starknet::Store)]
 pub struct RecentLog {
     pub id: u32,
     pub username: felt252,
